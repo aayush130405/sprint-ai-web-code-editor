@@ -1,6 +1,6 @@
 //public routes that do not require auth 
 export const publicRoutes: string[] = [
-    "/"
+
 ]
 
 //protected routes that require auth 
