@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import UserButton from "@/modules/auth/components/user-button";
 import Image from "next/image";
 
 export default function Home() {
@@ -7,6 +8,7 @@ export default function Home() {
       <Button>
         Get Started
       </Button>
+      <UserButton/>
     </div>
   );
 }
