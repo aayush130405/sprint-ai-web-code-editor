@@ -1,3 +1,5 @@
+//User hits "/" → this page loads
+
 import { Button } from "@/components/ui/button";
 import UserButton from "@/modules/auth/components/user-button";
 import Image from "next/image";
