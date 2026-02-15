@@ -34,10 +34,10 @@ export function Header() {
                     className="flex items-center gap-2 justify-center"
                   >
                     <Image
-                      src={"/logo.svg"}
+                      src={"/logo.png"}
                       alt="Logo"
-                      height={60}
-                      width={60}
+                      height={100}
+                      width={100}
                     />
 
                     <span className="hidden sm:block font-extrabold text-lg">
