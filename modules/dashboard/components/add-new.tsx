@@ -46,8 +46,6 @@ const AddNewButton = () => {
           />
         </div>
       </div>
-      
-    //   Todo Implement Template Selecting Model here
     </>
   )
 }
