@@ -1,13 +1,13 @@
-
 "use client";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 // import { createPlayground } from "@/features/playground/actions";
-import { Plus } from 'lucide-react'
-import Image from "next/image"
+import { Plus } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react"
+import { useState } from "react";
 import { toast } from "sonner";
+import TemplateSelectingModal from "./template-selecting-modal";
 
 const AddNewButton = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,11 +28,16 @@ const AddNewButton = () => {
             className="flex justify-center items-center bg-white group-hover:bg-[#fff8f8] group-hover:border-[#E93F3F] group-hover:text-[#E93F3F] transition-colors duration-300"
             size={"icon"}
           >
-            <Plus size={30} className="transition-transform duration-300 group-hover:rotate-90" />
+            <Plus
+              size={30}
+              className="transition-transform duration-300 group-hover:rotate-90"
+            />
           </Button>
           <div className="flex flex-col">
             <h1 className="text-xl font-bold text-[#e93f3f]">Add New</h1>
-            <p className="text-sm text-muted-foreground max-w-[220px]">Create a new playground</p>
+            <p className="text-sm text-muted-foreground max-w-[220px]">
+              Create a new playground
+            </p>
           </div>
         </div>
 
@@ -46,8 +51,13 @@ const AddNewButton = () => {
           />
         </div>
       </div>
+      <TemplateSelectingModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={() => {}}
+      />
     </>
-  )
-}
+  );
+};
 
-export default AddNewButton
+export default AddNewButton;
