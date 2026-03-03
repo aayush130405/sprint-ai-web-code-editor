@@ -18,18 +18,20 @@ enum UserRole {
   USER
   PREMIUM_USER
 }
+
 model User {
-  id String @id @default(cuid()) @map("_id")
-  name String?
-  email String @unique
-  image String?
-  accounts Account[]      //one single user can login with various methods and accounts like google, github etc.
-  role UserRole @default(USER)
+  id       String    @id @default(cuid()) @map("_id")
+  name     String?
+  email    String    @unique
+  image    String?
+  accounts Account[] //one single user can login with various methods and accounts like google, github etc.
+  role     UserRole  @default(USER)
 
   myPlayground Playground[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  starredPlayground StarMark[]
 }
 
 //the account model is the info that is returned by the OAuth provider
@@ -46,13 +48,13 @@ model Account {
   scope             String?
   id_token          String? @db.String
   session_state     String?
- 
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
- 
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
-  @@unique([provider, providerAccountId])   //provider and providerAccountId combined together should be unique
+
+  @@unique([provider, providerAccountId]) //provider and providerAccountId combined together should be unique
   @@index([userId])
 }
 
@@ -66,15 +68,29 @@ enum Templates {
 }
 
 model Playground {
-  id String @id @default(cuid()) @map("_id")
-  title String
+  id          String    @id @default(cuid()) @map("_id")
+  title       String
   description String?
-  template Templates @default(REACT)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  userId String
+  template    Templates @default(REACT)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  userId      String
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   //todo: templateFiles
+  StarMark StarMark[]
+}
+
+model StarMark {
+  id           String   @id @default(cuid()) @map("_id")
+  userId       String
+  playgroundId String
+  isMarked     Boolean
+  createdAt    DateTime @default(now())
+
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  playground Playground @relation(fields: [playgroundId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, playgroundId])
 }
