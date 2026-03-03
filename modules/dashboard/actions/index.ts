@@ -4,6 +4,7 @@
 
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/modules/auth/actions";
+import { revalidatePath } from "next/cache";
 
 export const getAllPlaygroundForUser = async () => {
   const user = await getCurrentUser();
@@ -51,6 +52,8 @@ export const createPlayground = async (data: {
 
 export const deletePlaygroundById = async (id: string) => {
   try {
+    await db.playground.delete({ where: { id } });
+    revalidatePath("/dashboard")        //will be used so that page automatically refreshes to show the updated data rather than doing it manually
   } catch (error) {
     console.log(error);
   }
