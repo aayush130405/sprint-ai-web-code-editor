@@ -48,3 +48,10 @@ export const createPlayground = async (data: {
     console.log(error);
   }
 };
+
+export const deletePlaygroundById = async (id: string) => {
+  try {
+  } catch (error) {
+    console.log(error);
+  }
+};
