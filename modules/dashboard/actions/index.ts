@@ -53,7 +53,53 @@ export const createPlayground = async (data: {
 export const deletePlaygroundById = async (id: string) => {
   try {
     await db.playground.delete({ where: { id } });
-    revalidatePath("/dashboard")        //will be used so that page automatically refreshes to show the updated data rather than doing it manually
+    revalidatePath("/dashboard"); //will be used so that page automatically refreshes to show the updated data rather than doing it manually
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const editProjectById = async (
+  id: string,
+  data: { title: string; description: string },
+) => {
+  try {
+    await db.playground.update({
+      where: {
+        id,
+      },
+      data: data,
+    });
+
+    revalidatePath("/dashboard");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const duplicateProjectById = async (id: string) => {
+  try {
+    const originalPlayground = await db.playground.findUnique({
+      where: {
+        id,
+      },
+      //todo add template files
+    });
+    if (!originalPlayground) {
+      throw new Error("Original playground not found!");
+    }
+
+    const duplicatedPlayground = await db.playground.create({
+      data: {
+        title: `${originalPlayground.title} (Copy)`,
+        description: originalPlayground.description,
+        template: originalPlayground.template,
+        userId: originalPlayground.userId,
+        //todo add template files
+      },
+    });
+    revalidatePath("/dashboard");
+    return duplicatedPlayground;
   } catch (error) {
     console.log(error);
   }
