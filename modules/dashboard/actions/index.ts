@@ -50,7 +50,7 @@ export const createPlayground = async (data: {
   }
 };
 
-export const deletePlaygroundById = async (id: string) => {
+export const deleteProjectById = async (id: string) => {
   try {
     await db.playground.delete({ where: { id } });
     revalidatePath("/dashboard"); //will be used so that page automatically refreshes to show the updated data rather than doing it manually
