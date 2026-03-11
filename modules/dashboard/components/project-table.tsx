@@ -195,7 +195,9 @@ export default function ProjectTable({
                   </Badge>
                 </TableCell>
                 <TableCell>
-                  {format(new Date(project.createdAt), "MMM d, yyyy")}
+                  <span className="text-sm text-gray-500">
+                    {format(new Date(project.createdAt), "MMM d, yyyy")}
+                  </span>
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-2">
