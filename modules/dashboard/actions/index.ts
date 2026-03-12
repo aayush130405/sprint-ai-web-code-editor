@@ -32,6 +32,9 @@ export const toggleStarMarked = async (playgroundId: string, isChecked: boolean)
         }
       })
     }
+
+    revalidatePath("/dashboard");
+    return {success: true, isMarked: isChecked};
   } catch (error) {
     
   }
