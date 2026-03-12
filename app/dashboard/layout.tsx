@@ -15,11 +15,10 @@ export default async function DashboardLayout ({children} : {children: React.Rea
         ANGULAR: "Terminal"
     }
 
-    const formattedPlaygroundData = playgroundData?.map((item) => ({
+    const formattedPlaygroundData = (playgroundData ?? []).map((item) => ({
         id: item.id,
         name: item.title,
-        //todo: star
-        starred: false,
+        starred: item.StarMark?.[0]?.isMarked || false,
         icon: technologyIconMap[item.template] || "Code2"
     }))
  

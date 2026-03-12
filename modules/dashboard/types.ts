@@ -16,6 +16,6 @@ export interface Project {
     createdAt: Date
     updatedAt: Date
     userId: string
-    user: User
+    user?: User
     Starmark: {isMarked: boolean}[]
 }

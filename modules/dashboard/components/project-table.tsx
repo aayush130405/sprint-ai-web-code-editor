@@ -53,6 +53,7 @@ import {
   Eye,
 } from "lucide-react";
 import { toast } from "sonner";
+import {MarkedToggleButton} from "./marked-toggle";
 
 interface ProjectTableProps {
   projects: Project[];
@@ -203,14 +204,14 @@ export default function ProjectTable({
                   <div className="flex items-center gap-2">
                     <div className="w-8 h-8 rounded-full overflow-hidden">
                       <Image
-                        src={project.user.image || "/placeholder.svg"}
-                        alt={project.user.name}
+                        src={project.user?.image || "/placeholder.svg"}
+                        alt={project.user?.name ?? ""}
                         width={32}
                         height={32}
                         className="object-cover"
                       />
                     </div>
-                    <span className="text-sm">{project.user.name}</span>
+                    <span className="text-sm">{project.user?.name ?? "—"}</span>
                   </div>
                 </TableCell>
                 <TableCell>
@@ -223,7 +224,7 @@ export default function ProjectTable({
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-48">
                       <DropdownMenuItem asChild>
-                        {/* <MarkedToggleButton markedForRevision={project.Starmark[0]?.isMarked} id={project.id} /> */}
+                        <MarkedToggleButton markedForRevision={project?.Starmark?.[0]?.isMarked} id={project.id} />
                       </DropdownMenuItem>
                       <DropdownMenuItem asChild>
                         <Link

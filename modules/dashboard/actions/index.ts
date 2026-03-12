@@ -5,6 +5,7 @@
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/modules/auth/actions";
 import { revalidatePath } from "next/cache";
+import { truncateByDomain } from "recharts/types/util/ChartUtils";
 
 export const toggleStarMarked = async (playgroundId: string, isChecked: boolean) => {
   const user = await getCurrentUser();
@@ -49,6 +50,17 @@ export const getAllPlaygroundForUser = async () => {
       where: {
         userId: user?.id,
       },
+      include: {
+        user: true,
+        StarMark: {
+          where: {
+            userId: user?.id!
+          },
+          select: {
+            isMarked: true
+          }
+        }
+      }
     });
 
     return playground;
