@@ -36,7 +36,8 @@ export const toggleStarMarked = async (playgroundId: string, isChecked: boolean)
     revalidatePath("/dashboard");
     return {success: true, isMarked: isChecked};
   } catch (error) {
-    
+    console.error("Error updating Starmark");
+    return {success: false, error: "Failed to update Starmark"};
   }
 }
 
