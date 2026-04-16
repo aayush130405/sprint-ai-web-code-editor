@@ -5,6 +5,16 @@ import path from "path"
 import fs from "fs/promises"
 import { NextRequest } from "next/server"
 
+function validateJsonStructure(data: unknown): boolean {
+    try {
+        JSON.parse(JSON.stringify(data));
+        return true;
+    } catch (error) {
+        console.error("Invalid JSON structure", error);
+        return false;
+    }
+}
+
 export async function GET(request: NextRequest, {params}:{params:Promise<{id: string}>}) {
     const {id} = await params;
     if(!id) return Response.json({error: "Missing playground ID"}, {status: 400});
@@ -17,7 +27,16 @@ export async function GET(request: NextRequest, {params}:{params:Promise<{id: st
     if(!templatePaths) return Response.json({error: "Invalid template"}, {status: 401});
 
     try {
-        
+        const inputPath = path.join(process.cwd(), templatePaths);
+        const outputFile = path.join(process.cwd(), `output/${templateKey}.json`);
+
+        await saveTemplateStructureToJson(inputPath, outputFile);
+        const result = await readTemplateStructureFromJson(outputFile);
+
+        if(!validateJsonStructure(result.items)) {
+            return Response.json({error: "Invalid JSON structure"}, {status: 500});
+        }
+
     } catch (error) {
         
     }
