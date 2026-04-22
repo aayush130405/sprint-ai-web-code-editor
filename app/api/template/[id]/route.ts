@@ -15,6 +15,7 @@ function validateJsonStructure(data: unknown): boolean {
     }
 }
 
+// The main purpose of this file is that it Generates template folder/file JSON from starter files for a given playground’s template.
 export async function GET(request: NextRequest, {params}:{params:Promise<{id: string}>}) {
     const {id} = await params;
     if(!id) return Response.json({error: "Missing playground ID"}, {status: 400});
