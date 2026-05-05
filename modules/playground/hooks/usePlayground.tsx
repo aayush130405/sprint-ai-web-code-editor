@@ -43,7 +43,7 @@ export const usePlayground = (id: string) : UsePlaygroundReturn => {
                 toast.success("Playground loaded successfully");
             }
 
-            //if not saved content, load template from api
+            //if not saved content, load template from api as api generates templateJSON by passing id
             const res = await fetch(`/api/template/${id}`);
             if(!res.ok) throw new Error(`Failed to load template: ${res.status}`);
             const templateRes = await res.json();
