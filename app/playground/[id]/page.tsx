@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation'
 import React from 'react'
 import { SidebarInset, SidebarSeparator, SidebarTrigger } from '@/components/ui/sidebar';
 import { Separator } from '@/components/ui/separator';
+import { TemplateFileTree } from '@/modules/playground/components/playground-explorer';
 
 const MainPlaygroundPage = () => {
     const {id} = useParams<{id:string}>();
@@ -12,11 +13,25 @@ const MainPlaygroundPage = () => {
     const {playgroundData, templateData, isLoading, error, saveTemplateData} = usePlayground(id);
     console.log("template data", templateData);
     console.log("playground data", playgroundData);
+
+    const activeFile = "sample.txt";
     
   return (
     <TooltipProvider>
       <>
         {/* Template file tree */}
+        <TemplateFileTree
+          data={templateData!}
+          onFileSelect={() => {}}
+          selectedFile={activeFile}
+          title="File Explorer"
+          onAddFile={() => {}}
+          onAddFolder={() => {}}
+          onDeleteFile={() => {}}
+          onDeleteFolder={() => {}}
+          onRenameFile={() => {}}
+          onRenameFolder={() => {}}
+        />
         <SidebarInset>
           <header className='flex h-16 shrink-0 items-center gap-2 border-b px-4'>
             <SidebarTrigger className='-ml-1'/>
