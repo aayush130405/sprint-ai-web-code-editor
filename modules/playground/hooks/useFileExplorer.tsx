@@ -2,6 +2,7 @@ import {create} from 'zustand';
 import {toast} from 'sonner';
 
 import {TemplateFile, TemplateFolder} from "../lib/path-to-json";
+import { generateFileId } from '../lib';
 
 interface OpenFile extends TemplateFile {
     id: string;
@@ -30,10 +31,49 @@ interface FileExplorerState {
     closeAllFiles: () => void;
 }
 
+//@ts-ignore
 export const useFileExplorer = create<FileExplorerState> ((set, get) => ({
     templateData: null,
     playgroundId: "",
     openFiles: [] satisfies OpenFile[],
     activeFileId: null,
     editorContent: "",
+
+    setTemplateData: (data) => set({templateData: data}),
+    setPlaygroundId(id) {
+        set({playgroundId: id})
+    },
+    setOpenFiles: (files) => set({openFiles: files}),
+    setActiveFileId: (fileId) => set({activeFileId: fileId}),
+    setEditorContent: (content) => set({editorContent: content}),
+
+    openFile: (file) => {
+        const fileId = generateFileId(file, get().templateData!);
+        const {openFiles} = get();
+        const existingFile = openFiles.find((f) => f.id === fileId);
+
+        if(existingFile) {
+            set({activeFileId: fileId, editorContent: existingFile.content})
+            return;
+        }
+
+        const newOpenFile: OpenFile = {
+            ...file,
+            id: fileId,
+            hasUnsavedChanges: false,
+            content: file.content || "",
+            originalContent: file.content || ""
+        }
+
+        set((state) => ({
+            openFiles: [...state.openFiles, newOpenFile],
+            activeFileId: fileId,
+            editorContent: file.content || ""
+        }))
+    },
+
+    closeFile: (fileId) => {
+        const {openFiles, activeFileId} = get();
+        const newFiles = openFiles.filter((f) => f.id !== fileId);
+    }
 }))
