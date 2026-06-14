@@ -101,6 +101,7 @@ export const useFileExplorer = create<FileExplorerState> ((set, get) => ({
         })
     },
 
+    //this function is used to clear tabs, active file, editor text
     closeAllFiles: () => {
         set({
             openFiles: [],
