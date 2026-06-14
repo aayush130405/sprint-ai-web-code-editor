@@ -52,11 +52,13 @@ export const useFileExplorer = create<FileExplorerState> ((set, get) => ({
         const {openFiles} = get();
         const existingFile = openFiles.find((f) => f.id === fileId);
 
+        //if the file is already open, just switch active tab and load its content to the editor
         if(existingFile) {
             set({activeFileId: fileId, editorContent: existingFile.content})
             return;
         }
 
+        //else if the file is not open, make a new openFile type entry and set its content in the editor
         const newOpenFile: OpenFile = {
             ...file,
             id: fileId,
@@ -79,6 +81,7 @@ export const useFileExplorer = create<FileExplorerState> ((set, get) => ({
         let newActiveFileId = activeFileId;
         let newEditorContent = get().editorContent;
 
+        //if the file which we are on is to be removed, move to the last file in newFiles array
         if(activeFileId === fileId) {
             if(newFiles.length > 0) {
                 const lastFile = newFiles[newFiles.length - 1];
@@ -90,6 +93,7 @@ export const useFileExplorer = create<FileExplorerState> ((set, get) => ({
             }
         }
 
+        //if the file which is to be removed is not our current active file, just update openFiles array and let activeFileId and editorContent be the same
         set({
             openFiles: newFiles,
             activeFileId: newActiveFileId,
