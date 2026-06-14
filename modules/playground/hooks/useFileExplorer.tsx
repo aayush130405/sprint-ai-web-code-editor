@@ -75,5 +75,33 @@ export const useFileExplorer = create<FileExplorerState> ((set, get) => ({
     closeFile: (fileId) => {
         const {openFiles, activeFileId} = get();
         const newFiles = openFiles.filter((f) => f.id !== fileId);
+
+        let newActiveFileId = activeFileId;
+        let newEditorContent = get().editorContent;
+
+        if(activeFileId === fileId) {
+            if(newFiles.length > 0) {
+                const lastFile = newFiles[newFiles.length - 1];
+                newActiveFileId = lastFile.id;
+                newEditorContent = lastFile.content;
+            } else {
+                newActiveFileId = null;
+                newEditorContent = "";
+            }
+        }
+
+        set({
+            openFiles: newFiles,
+            activeFileId: newActiveFileId,
+            editorContent: newEditorContent
+        })
+    },
+
+    closeAllFiles: () => {
+        set({
+            openFiles: [],
+            activeFileId: null,
+            editorContent: ""
+        })
     }
 }))
