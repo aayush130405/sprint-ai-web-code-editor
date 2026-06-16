@@ -5,7 +5,12 @@
  * syntax highlighting per file extension. Not yet implemented — wire this up when adding the
  * editor pane between the tab bar and the preview panel.
  */
-import React from 'react'
+"use client"
+
+import React, {useRef, useEffect, useCallback} from 'react'
+import Editor , {type Monaco} from '@monaco-editor/react'
+import { configureMonaco, defaultEditorOptions, getEditorLanguage } from '../lib/editor-config'
+import type { TemplateFile } from '../lib/path-to-json'
 
 const PlaygroundEditor = () => {
   return (
