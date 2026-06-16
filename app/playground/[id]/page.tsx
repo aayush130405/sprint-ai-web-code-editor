@@ -180,6 +180,10 @@ const MainPlaygroundPage = () => {
                       </div>
                     </Tabs>
                   </div>
+
+                  <div className='flex-1'>
+                      {activeFile?.content}
+                  </div>
                 </div>
               ) : (
                 <div className="flex flex-col h-full items-center justify-center text-muted-foreground gap-4">
