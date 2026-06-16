@@ -1,3 +1,12 @@
+/**
+ * Global Zustand store for the in-browser editor session state — separate from `usePlayground`
+ * which handles server I/O. Tracks the current playground ID, a local copy of `templateData`,
+ * the list of open file tabs (`openFiles`), which tab is active, and the editor's current text
+ * (`editorContent`). `openFile` deduplicates tabs by generating a path-based ID via `generateFileId`,
+ * and `closeFile`/`closeAllFiles` manage tab lifecycle including switching the active tab when the
+ * current one is closed. This store is the bridge between the file tree sidebar (file selection)
+ * and the tab bar + editor pane; unsaved-change tracking lives on each `OpenFile` entry.
+ */
 import {create} from 'zustand';
 import {toast} from 'sonner';
 

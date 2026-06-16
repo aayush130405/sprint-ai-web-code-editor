@@ -1,3 +1,14 @@
+/**
+ * Sidebar file explorer for the code playground. Exports `TemplateFileTree`, which renders
+ * a VS Code-style nested folder/file tree from a `TemplateFolder` JSON structure passed in
+ * via the `data` prop. The tree is display-only with respect to data ownership — all mutations
+ * (add, rename, delete) are delegated upward through callback props (`onAddFile`, `onDeleteFolder`,
+ * etc.) so the parent owns the source of truth. Internally, `TemplateNode` recursively renders
+ * each file or folder: files show a click-to-select row with a hover context menu; folders are
+ * collapsible and can nest children. Dialogs for create/rename/delete are co-located here and
+ * triggered locally, but the actual tree updates must be handled by whoever passes the callbacks
+ * (currently stubbed as no-ops in `app/playground/[id]/page.tsx`).
+ */
 "use client";
 
 import * as React from "react";

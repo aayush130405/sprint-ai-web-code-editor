@@ -1,3 +1,12 @@
+/**
+ * Top-level orchestrator page for a single code playground (`/playground/:id`). Wires together
+ * the three main concerns: data loading (`usePlayground`), session state (`useFileExplorer`), and
+ * UI layout (sidebar file tree + main editor area). The left sidebar renders `TemplateFileTree`
+ * fed with `templateData`; the right pane shows a tab bar for open files and a placeholder content
+ * area (raw text until `PlaygroundEditor` is built). Header actions for save, AI bot, preview toggle,
+ * and close-all are scaffolded but several handlers (save, tree CRUD) are still no-ops. Syncs
+ * `templateData` into the Zustand store on initial load so `generateFileId` can resolve paths.
+ */
 "use client"
 import { usePlayground } from '@/modules/playground/hooks/usePlayground';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';

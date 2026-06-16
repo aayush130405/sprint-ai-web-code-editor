@@ -1,3 +1,9 @@
+/**
+ * Modal form for renaming a folder in the template tree. Pre-populates the current folder name
+ * when the dialog opens and calls `onRename(newFolderName)` on submit. Used by folder nodes in
+ * `playground-explorer.tsx`; the parent callback must update the `folderName` field in the tree
+ * and reconcile any open tabs whose paths include the old folder name.
+ */
 "use client";
 
 import { Button } from "@/components/ui/button";

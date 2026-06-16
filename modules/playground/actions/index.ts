@@ -1,3 +1,10 @@
+/**
+ * Next.js server actions for playground persistence. `getPlaygroundById` reads a playground's
+ * title and any previously saved template file content from Prisma. `SaveUpdatedCode` upserts
+ * the entire `TemplateFolder` tree as a JSON string into the `templateFile` table, gated on
+ * the current authenticated user. These are called from `usePlayground` on the client side
+ * and run exclusively on the server (`"use server"`), keeping DB access out of components.
+ */
 "use server"
 
 import { db } from "@/lib/db"

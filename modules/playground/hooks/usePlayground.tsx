@@ -1,3 +1,13 @@
+/**
+ * React hook that owns playground-level data fetching and persistence for a single playground
+ * session. On mount (or when `id` changes), it loads the playground record from the DB via
+ * `getPlaygroundById`, then fetches the starter template structure from `/api/template/:id`.
+ * Saved user edits take precedence if `templateFiles[0].content` exists in the DB; otherwise
+ * the API-generated template is used. Exposes `playgroundData` (title, metadata), `templateData`
+ * (the nested file tree), loading/error state, and `saveTemplateData` which persists the entire
+ * tree back to the DB through the `SaveUpdatedCode` server action. Toast notifications surface
+ * load/save outcomes to the user.
+ */
 import {useState, useEffect, useCallback} from "react";
 import {toast} from "sonner";
 

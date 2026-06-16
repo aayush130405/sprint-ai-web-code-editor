@@ -1,3 +1,9 @@
+/**
+ * Modal form for renaming an existing file in the template tree. Pre-populates filename and
+ * extension from the current file when opened, allows editing both fields independently, and
+ * calls `onRename(newFilename, newExtension)` on submit. Syncs local state with props via
+ * `useEffect` whenever the dialog opens so stale values from a previous rename aren't shown.
+ */
 "use client";
 
 import { Button } from "@/components/ui/button";

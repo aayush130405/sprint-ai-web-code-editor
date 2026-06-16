@@ -1,3 +1,12 @@
+/**
+ * Core data model and server-side filesystem scanner for playground templates. Defines the
+ * `TemplateFile`, `TemplateFolder`, and `TemplateItem` types that represent the entire project
+ * as a nested JSON tree (filename + extension + content for files; folderName + items for folders).
+ * `scanTemplateDirectory` recursively reads a real directory on disk, skipping ignored files/folders
+ * (node_modules, lockfiles, etc.) and inlining file contents up to a size cap. Companion helpers
+ * `saveTemplateStructureToJson` and `readTemplateStructureFromJson` round-trip the tree to/from
+ * disk. Used by the `/api/template` route to bootstrap new playgrounds from starter templates.
+ */
 import * as fs from 'fs';
 import * as path from 'path';
 

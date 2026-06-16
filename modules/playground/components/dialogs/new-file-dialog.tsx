@@ -1,3 +1,10 @@
+/**
+ * Modal form for creating a new file in the template tree. Collects a filename and extension
+ * (defaults to "js"), validates non-empty input, and calls `onCreateFile(filename, extension)`
+ * on submit. Used by `TemplateFileTree` and `TemplateNode` at both root and nested folder levels;
+ * the parent callback is responsible for inserting the new `TemplateFile` into the tree at the
+ * correct path. Resets form fields after a successful create.
+ */
 "use client";
 
 import { Button } from "@/components/ui/button";

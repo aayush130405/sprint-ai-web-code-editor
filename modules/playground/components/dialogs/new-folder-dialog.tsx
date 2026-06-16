@@ -1,3 +1,9 @@
+/**
+ * Modal form for creating a new folder in the template tree. Collects a folder name, validates
+ * it is non-empty, and calls `onCreateFolder(folderName)` on submit. Rendered from both the root
+ * explorer toolbar and individual folder nodes in `playground-explorer.tsx`. The parent callback
+ * must append a new empty `TemplateFolder` ({ folderName, items: [] }) at the appropriate depth.
+ */
 "use client";
 
 import { Button } from "@/components/ui/button";

@@ -1,3 +1,10 @@
+/**
+ * Reusable destructive-action confirmation dialog built on AlertDialog. Displays a customizable
+ * title, description (supports `{item}` placeholder replaced with `itemName`), and confirm/cancel
+ * buttons styled in destructive red. Used by `TemplateNode` in the file explorer for both file
+ * and folder deletion — the actual tree mutation happens in the `onConfirm` callback passed by
+ * the parent, keeping this component purely presentational.
+ */
 import * as React from "react"
 import {
   AlertDialog,

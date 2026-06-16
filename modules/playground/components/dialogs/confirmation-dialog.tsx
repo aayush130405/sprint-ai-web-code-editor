@@ -1,3 +1,9 @@
+/**
+ * Generic yes/no confirmation dialog for non-destructive actions (e.g. "discard unsaved changes?",
+ * "close all tabs?"). Accepts customizable title, description, and button labels; calls separate
+ * `onConfirm` and `onCancel` handlers. Unlike `DeleteDialog`, this uses a standard Dialog (not
+ * AlertDialog) with a neutral confirm button — use this when the action is reversible or informational.
+ */
 import * as React from "react"
 import {
   Dialog,

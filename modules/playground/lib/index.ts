@@ -1,3 +1,10 @@
+/**
+ * Client-side utilities for navigating the in-memory template file tree. `findFilePath` walks
+ * the nested `TemplateFolder` structure recursively to locate a file and return its slash-separated
+ * path (e.g. `src/components/App.tsx`). `generateFileId` builds a stable, path-qualified identifier
+ * from that result — used by `useFileExplorer` to key open tabs so two files with the same name
+ * in different folders don't collide. These helpers operate on the JSON tree, not the real filesystem.
+ */
 import { TemplateFile, TemplateFolder } from "./path-to-json";
 
 export function findFilePath(
