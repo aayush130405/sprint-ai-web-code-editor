@@ -8,13 +8,28 @@
 "use client"
 
 import React, {useRef, useEffect, useCallback} from 'react'
-import Editor , {type Monaco} from '@monaco-editor/react'
+import Editor, { type Monaco } from '@monaco-editor/react'
 import { configureMonaco, defaultEditorOptions, getEditorLanguage } from '../lib/editor-config'
 import type { TemplateFile } from '../lib/path-to-json'
 
-const PlaygroundEditor = () => {
+interface PlaygroundEditorProps {
+    activeFile: TemplateFile | undefined
+    content: string
+    onContentChange: (value: string) => void
+}
+
+const PlaygroundEditor = ({
+    activeFile,
+    content,
+    onContentChange
+} : PlaygroundEditorProps) => {
+    const editorRef = useRef<any>(null);
+    const monacoRef = useRef<Monaco | null>(null);
+
   return (
-    <div>PlaygroundEditor</div>
+    <div className='h-full relative'>
+        <Editor
+    </div>
   )
 }
 
