@@ -26,9 +26,23 @@ const PlaygroundEditor = ({
     const editorRef = useRef<any>(null);
     const monacoRef = useRef<Monaco | null>(null);
 
+    const handleEditorDidMount = (editor: any, monaco: Monaco) => {
+        editorRef.current = editor;
+        monacoRef.current = monaco;
+        console.log("Editor instance mounted", !!editorRef.current);
+    }
+
   return (
     <div className='h-full relative'>
         <Editor
+            height={"100%"}
+            value={content}
+            onChange={(value) => onContentChange(value || "")}
+            onMount={handleEditorDidMount}
+            language={activeFile ? getEditorLanguage(activeFile.fileExtension || "") : "plaintext"}
+            //@ts-ignore
+            options={defaultEditorOptions}
+        />
     </div>
   )
 }
