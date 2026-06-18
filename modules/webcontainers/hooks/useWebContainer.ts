@@ -12,7 +12,7 @@ interface UseWebContainerReturn {
     instance: WebContainer | null;
     isLoading: boolean;
     writeFileSync: (path: string, content: string) => void; //will update the code in the container whenever changes are made in the editor
-    destory: () => void;
+    destroy: () => void;
 }
 
 export const useWebContainer = ({templateData}: UseWebContainerProps): UseWebContainerReturn => {
@@ -55,6 +55,11 @@ export const useWebContainer = ({templateData}: UseWebContainerProps): UseWebCon
         if(!instance) throw new Error("Web Container instance is not available");
 
         try {
+            // splits path by /
+            // ◦  takes all except last segment as folderPath
+            // ◦  example:
+            //     ▪  src/components/App.tsx
+            //     ▪  folderPath -> src/components
             const pathParts = path.split('/');
             const folderPath = pathParts.slice(0, -1).join('/');
 
