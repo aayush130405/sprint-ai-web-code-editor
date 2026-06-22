@@ -74,4 +74,14 @@ export const useWebContainer = ({templateData}: UseWebContainerProps): UseWebCon
             throw new Error(`Failed to write file at ${path}: ${errorMessage}`); 
         }
     }, [instance]);
+
+    const destroy = useCallback(() => {
+        if(instance) {
+            instance.teardown();
+            setInstance(null);
+            setServerUrl(null);
+        }
+    }, [instance])
+
+    return {serverUrl, isLoading, error, instance, writeFileSync, destroy}
 }
