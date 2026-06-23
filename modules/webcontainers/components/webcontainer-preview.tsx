@@ -69,17 +69,115 @@ const WebContainerPreview = ({
                                 the same, and only these two fields are updated.
                             */
                         })
+
+                        setCurrentStep(4);
+                        setLoadingState((prev) => ({
+                            ...prev,
+                            starting: true
+                        }));
+                        return;
                     }
                 } catch (error) {
                     
                 }
+
+                //step 1 -- transform data
+                setLoadingState((prev) => ({...prev, transforming: true}));
+                setCurrentStep(1);
+                //TODO: terminal logic, that is to transform the data
+
+                //@ts-ignore
+                const files = transformToWebContainerFormat(templateData);
+                setLoadingState((prev) => ({
+                    ...prev,
+                    transforming: false,
+                    mounting: true
+                }));
+                setCurrentStep(2);
+
+                //step 2 ---mounting files
+                //TODO: terminal logic
+                await instance.mount(files);
+
+                //TODO: terminal logic
+                setLoadingState((prev) => ({
+                    ...prev,
+                    mounting: false,
+                    installing: true
+                }));
+                setCurrentStep(3);
+
+                //step 3 -- installing dependencies
+                //TODO: terminal logic
+                const installProcess = await instance.spawn("npm", ["install"]);
+                installProcess.output.pipeTo(
+                    new WritableStream({
+                        write(data) {
+                            //TODO: terminal logic
+                        }
+                    })
+                )
+
+                const installExitCode = await installProcess.exit;
+                if(installExitCode !== 0) {
+                    throw new Error(`Failed to install dependencies. Exit code : ${installExitCode}`);
+                }
+
+                //TODO: terminal logic
+
+                setLoadingState((prev) => ({
+                    ...prev,
+                    installing: false,
+                    starting: true
+                }))
+                setCurrentStep(4);
+
+                //step 4 -- start the server
+                //TODO: terminal logic
+                const startProcess = await instance.spawn("npm", ["run", "start"]);
+                instance.on('server-ready', (port: number, url: string) => {
+                    //TODO: terminal logic
+                    setPreviewUrl(url);
+                    setLoadingState((prev) => ({
+                        ...prev,
+                        starting: false,
+                        ready: true
+                    }));
+                    setIsSetupComplete(true);
+                    setIsSetupInProgress(false);
+                })
+
+                startProcess.output.pipeTo(
+                    new WritableStream({
+                        write(data) {
+                            //TODO: terminal logic
+                        }
+                    })
+                )
             } catch (error) {
-                
+                console.error("Error setting up container:", error);
+                const errorMessage = error instanceof Error ? error.message : String(error);
+                //TODO: terminal logic
+                setSetupError(errorMessage);
+                setIsSetupInProgress(false);
+                setLoadingState({
+                    transforming: false,
+                    mounting: false,
+                    installing: false,
+                    starting: false,
+                    ready: false
+                });
             }
         }
 
         setupContainer();
     }, [instance, templateData, isSetupComplete, isSetupInProgress])
+
+    useEffect(() => {
+        return () => {
+            //cleanup function
+        }
+    }, [])
 
   return (
     <div>WebContainerPreview</div>
