@@ -26,6 +26,20 @@ const WebContainerPreview = ({
     writeFileSync,
     forceResetup = false
 }: WebContainerPreviewProps) => {
+    const [previewUrl, setPreviewUrl] = useState<string>('');
+    const [loadingState, setLoadingState] = useState({
+        transforming: false,
+        mounting: false,
+        installing: false,
+        starting: false,
+        ready: false
+    });
+    const [currentStep, setCurrentStep] = useState(0);
+    const totalSteps = 4;
+    const [setupError, setSetupError] = useState<string | null>(null);
+    const [setupComplete, setIsSetupComplete] = useState(false);
+    const [isSetupInProgress, setIsSetupInProgress] = useState(false);
+
   return (
     <div>WebContainerPreview</div>
   )
