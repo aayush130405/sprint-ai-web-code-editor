@@ -1,6 +1,11 @@
+"use client"
+
+import { transformToWebContainerFormat } from '../hooks/transformer'
+import { CheckCircle, Loader2, XCircle } from 'lucide-react'
+import { Progress } from '@/components/ui/progress'
 import { TemplateFolder } from '@/modules/playground/lib/path-to-json'
 import { WebContainer } from '@webcontainer/api'
-import React from 'react'
+import React, {useEffect, useState, useRef} from 'react'
 
 interface WebContainerPreviewProps {
     templateData: TemplateFolder,
@@ -21,8 +26,6 @@ const WebContainerPreview = ({
     writeFileSync,
     forceResetup = false
 }: WebContainerPreviewProps) => {
-    
-
   return (
     <div>WebContainerPreview</div>
   )
