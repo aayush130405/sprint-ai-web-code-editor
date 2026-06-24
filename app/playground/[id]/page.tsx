@@ -220,11 +220,16 @@ const MainPlaygroundPage = () => {
                               <ResizablePanel defaultSize={50}>
                                 {/* render web container preview component */}
                                 <WebContainerPreview 
+                                //@ts-ignore
                                 templateData={templateData}
                                 instance={instance}
+                                //@ts-ignore
+
                                 writeFileSync={writeFileSync}
                                 isLoading={containerLoading}
                                 error={containerError}
+                                //@ts-ignore
+
                                 serverUrl={serverUrl}
                                 forceResetup={false}
                                 />
