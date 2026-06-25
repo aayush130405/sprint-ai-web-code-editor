@@ -174,6 +174,11 @@ const TerminalComponent = forwardRef<TerminalRef, TerminalProps>(({
    *
    * Everything else is split on spaces and passed to webContainerInstance.spawn().
    */
+
+    // This is the brain of command execution.
+    // Whenever user presses Enter, this function receives the full command.
+    // Example: "npm run dev"
+    // Then it sends that command to WebContainer.
   const executeCommand = useCallback(async (command: string) => {
     if (!webContainerInstance || !term.current) return;
 
