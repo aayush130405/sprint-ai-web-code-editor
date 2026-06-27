@@ -25,7 +25,6 @@ import { Terminal } from "xterm"; // Core terminal emulator library
 import { FitAddon } from "xterm-addon-fit"; // Auto-resizes terminal cols/rows when container resizes
 import { WebLinksAddon } from "xterm-addon-web-links"; // Makes URLs in output clickable
 import { SearchAddon } from "xterm-addon-search"; // Find-in-terminal (used by the search toolbar)
-import "xterm/css/xterm.css"; // Default xterm styling — we override colors via `theme` below
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Copy, Trash2, Download } from "lucide-react";

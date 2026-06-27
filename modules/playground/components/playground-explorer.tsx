@@ -168,7 +168,7 @@ export function TemplateFileTree({
           <SidebarGroupContent>
             <SidebarMenu>
               {isRootFolder ? (
-                (data as TemplateFolder).items.map((child, index) => (
+                ((data as TemplateFolder).items ?? []).map((child, index) => (
                   <TemplateNode
                     key={index}
                     item={child}
@@ -461,7 +461,7 @@ function TemplateNode({
 
           <CollapsibleContent>
             <SidebarMenuSub>
-              {folder.items.map((childItem, index) => (
+              {(folder.items ?? []).map((childItem, index) => (
                 <TemplateNode
                   key={index}
                   item={childItem}

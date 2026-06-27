@@ -15,7 +15,8 @@ interface WebContainerPreviewProps {
     error: string | null,
     instance: WebContainer | null,
     writeFileSync: (path: string, content: string) => Promise<void>,
-    forceResetup?: boolean      //optional prop to force resetup
+    forceResetup?: boolean,      //optional prop to force resetup
+    refreshKey?: number
 }
 
 const WebContainerPreview = ({
@@ -25,7 +26,8 @@ const WebContainerPreview = ({
     error,
     instance,
     writeFileSync,
-    forceResetup = false
+    forceResetup = false,
+    refreshKey = 0
 }: WebContainerPreviewProps) => {
     const [previewUrl, setPreviewUrl] = useState<string>('');
     const [loadingState, setLoadingState] = useState({
@@ -328,7 +330,8 @@ const WebContainerPreview = ({
             <div className="h-full flex flex-col">
               <div className="flex-1">
                 <iframe
-                  src={previewUrl}
+                  key={`${previewUrl}-${refreshKey}`}
+                  src={previewUrl ? `${previewUrl}${previewUrl.includes('?') ? '&' : '?'}refresh=${refreshKey}` : previewUrl}
                   className="w-full h-full border-none"
                   title="WebContainer Preview"
                 />
