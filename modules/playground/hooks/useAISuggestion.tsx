@@ -50,7 +50,7 @@ export const useAISuggestions = (): useAISuggestionsReturn => {
 
             const newState = {...currentState, isLoading: true};
 
-            (async () => {      //this is an immediately invoked function
+            (async () => {      //this is an immediately invoked function. we used this because this callback inside setState can not be async alone
                 try {
                     const payload = {
                         fileContent: model.getValue(),
@@ -107,7 +107,7 @@ export const useAISuggestions = (): useAISuggestionsReturn => {
                 }
 
                 const {line, column} = currentState.position;
-                const sanitizedSuggestion = currentState.suggestion.replace(/^\d+:\s*/gm, "");  //making suggestion monaco compatible
+                const sanitizedSuggestion = currentState.suggestion.replace(/^\d+:\s*/gm, "");  //making suggestion monaco compatible... in this case removing line numbers from the AI response
 
                 editor.executeEdits("", [
                     {
