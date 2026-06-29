@@ -28,6 +28,7 @@ import WebContainerPreview from '@/modules/webcontainers/components/webcontainer
 import LoadingStep from '@/modules/playground/components/loader';
 import { findFilePath } from '@/modules/playground/lib';
 import { toast } from 'sonner';
+import ToggleAI from '@/modules/playground/components/toggle-ai';
 
 const MainPlaygroundPage = () => {
     const {id} = useParams<{id:string}>();
@@ -379,7 +380,7 @@ const MainPlaygroundPage = () => {
                 <ToggleAI
                 isEnabled={true}
                 onToggle={() => {}}
-                suggestionLoading={() => {}}
+                suggestionLoading={false}
                 />
 
                 <DropdownMenu>
