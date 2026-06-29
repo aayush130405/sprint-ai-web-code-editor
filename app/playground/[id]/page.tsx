@@ -376,9 +376,11 @@ const MainPlaygroundPage = () => {
                   <TooltipContent>Save All (Ctrl + Shift + S)</TooltipContent>
                 </Tooltip>
 
-                <Button variant={"default"} size={"icon"}>
-                  <Bot className='size-4'/>
-                </Button>
+                <ToggleAI
+                isEnabled={true}
+                onToggle={() => {}}
+                suggestionLoading={() => {}}
+                />
 
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
