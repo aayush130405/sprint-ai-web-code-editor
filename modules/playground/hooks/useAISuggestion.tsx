@@ -7,3 +7,11 @@ interface AISuggestionState {
     decoration: string[];
     isEnabled: boolean;
 }
+
+interface useAISuggestionsReturn extends AISuggestionState {
+    toggleEnabled: () => void;
+    fetchSuggestion: (type: string, editor: any) => Promise<void>;
+    acceptSuggestion: (editor: any, monaco: any) => void;
+    rejectSuggestion: (editor: any) => void;
+    clearSuggestion: (editor: any) => void;
+}
