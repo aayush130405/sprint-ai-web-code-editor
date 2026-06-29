@@ -25,10 +25,12 @@ export const useAISuggestions = (): useAISuggestionsReturn => {
         isEnabled: true,
     });
 
+    //used to toggle the AI enabled option, i.e. enable if disabled and vice versa
     const toggleEnabled = useCallback(() => {
         setState((prev) => ({...prev, isEnabled: !prev.isEnabled}));
     }, [])
 
+    //used to send payload to API endpoint in order to request AI for suggestion
     const fetchSuggestion = useCallback(async (type: string, editor: any) => {
         setState((currentState) => {
             if(!currentState.isEnabled) {
@@ -96,8 +98,9 @@ export const useAISuggestions = (): useAISuggestionsReturn => {
         })
     }, [])
 
+    //used to get the suggestion from AI and insert in the codebase, remove decorations and later remove the suggestion from the memory
     const acceptSuggestion = useCallback(() => {
-        
+
     }, [])
 
 }
