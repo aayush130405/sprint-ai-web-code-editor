@@ -32,7 +32,7 @@ import { toast } from 'sonner';
 const MainPlaygroundPage = () => {
     const {id} = useParams<{id:string}>();
 
-    const [isPreviewVisible, setIsPreviewAvailable] = useState(false);
+    const [isPreviewVisible, setIsPreviewAvailable] = useState(true);
     const [previewRefreshKey, setPreviewRefreshKey] = useState(0);
 
     const {playgroundData, templateData, isLoading, error, saveTemplateData} = usePlayground(id);
