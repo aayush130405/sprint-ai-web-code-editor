@@ -1,4 +1,3 @@
-import { metadata } from "@/app/layout";
 import {type NextRequest, NextResponse } from "next/server";
 
 interface CodeSuggestionRequest {
