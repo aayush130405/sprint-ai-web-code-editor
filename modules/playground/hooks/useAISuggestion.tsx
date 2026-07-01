@@ -78,7 +78,7 @@ export const useAISuggestions = (): useAISuggestionsReturn => {
                             ...prev,
                             suggestion: suggestionText,
                             position: {
-                                line: cursorPosition.line,
+                                line: cursorPosition.lineNumber,
                                 column: cursorPosition.column
                             },
                             isLoading: false
@@ -99,36 +99,34 @@ export const useAISuggestions = (): useAISuggestionsReturn => {
     }, [])
 
     //used to get the suggestion from AI and insert in the codebase, remove decorations and later remove the suggestion from the memory
-    const acceptSuggestion = useCallback(() => {
-        (editor: any, monaco: any) => {
-            setState((currentState) => {
-                if(!currentState.suggestion || !currentState.position || !editor || !monaco) {
-                    return currentState;
+    const acceptSuggestion = useCallback((editor: any, monaco: any) => {
+        setState((currentState) => {
+            if(!currentState.suggestion || !currentState.position || !editor || !monaco) {
+                return currentState;
+            }
+
+            const {line, column} = currentState.position;
+            const sanitizedSuggestion = currentState.suggestion.replace(/^\d+:\s*/gm, "");  //making suggestion monaco compatible... in this case removing line numbers from the AI response
+
+            editor.executeEdits("", [
+                {
+                    range: new monaco.Range(line, column, line, column),
+                    text: sanitizedSuggestion,
+                    forceMoveMarkers: true,
                 }
+            ]);
 
-                const {line, column} = currentState.position;
-                const sanitizedSuggestion = currentState.suggestion.replace(/^\d+:\s*/gm, "");  //making suggestion monaco compatible... in this case removing line numbers from the AI response
+            if(editor && currentState.decoration.length > 0) {
+                editor.deltaDecorations(currentState.decoration, []);
+            } 
 
-                editor.executeEdits("", [
-                    {
-                        range: new monaco.Range(line, column, line, column),
-                        text: sanitizedSuggestion,
-                        forceMoveMarkers: true,
-                    }
-                ]);
-
-                if(editor && currentState.decoration.length > 0) {
-                    editor.deltaDecorations(currentState.decoration, []);
-                } 
-
-                return {
-                    ...currentState,
-                    suggestion: null,
-                    position: null,
-                    decoration: []
-                }
-            })
-        }
+            return {
+                ...currentState,
+                suggestion: null,
+                position: null,
+                decoration: []
+            }
+        })
     }, [])
 
     const rejectSuggestion = useCallback((editor:any)=>{
