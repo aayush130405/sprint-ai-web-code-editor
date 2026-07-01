@@ -29,6 +29,7 @@ import LoadingStep from '@/modules/playground/components/loader';
 import { findFilePath } from '@/modules/playground/lib';
 import { toast } from 'sonner';
 import ToggleAI from '@/modules/playground/components/toggle-ai';
+import { useAISuggestions } from '@/modules/playground/hooks/useAISuggestion';
 
 const MainPlaygroundPage = () => {
     const {id} = useParams<{id:string}>();
@@ -37,6 +38,8 @@ const MainPlaygroundPage = () => {
     const [previewRefreshKey, setPreviewRefreshKey] = useState(0);
 
     const {playgroundData, templateData, isLoading, error, saveTemplateData} = usePlayground(id);
+
+    const aiSuggestions = useAISuggestions();
 
     const {
       setTemplateData,
@@ -378,9 +381,9 @@ const MainPlaygroundPage = () => {
                 </Tooltip>
 
                 <ToggleAI
-                isEnabled={true}
-                onToggle={() => {}}
-                suggestionLoading={false}
+                isEnabled={aiSuggestions.isEnabled}
+                onToggle={aiSuggestions.toggleEnabled}
+                suggestionLoading={aiSuggestions.isLoading}
                 />
 
                 <DropdownMenu>
