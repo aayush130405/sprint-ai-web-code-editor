@@ -17,6 +17,12 @@ export default auth((req) => {
     const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
     const isAuthRoute = authRoutes.includes(nextUrl.pathname)
 
+    const isOpenApiRoute = nextUrl.pathname === "/api/code-completion";
+
+    if(isOpenApiRoute) {
+        return null
+    }
+
     if(isApiAuthRoute) {
         return null
     }
