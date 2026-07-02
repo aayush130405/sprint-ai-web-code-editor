@@ -23,7 +23,7 @@ interface PlaygroundEditorProps {
 
     onAcceptSuggestion: (editor: any, monaco: any) => void
     onRejectSuggestion: (editor: any) => void
-    onTriggerSuggestion: (type: string, editor: any) => void 
+    onTriggerSuggestion: (type: string, editor: any) => void  //this will receive data from parent ie fetchSuggestion
 }
 
 const PlaygroundEditor = ({
@@ -37,28 +37,33 @@ const PlaygroundEditor = ({
     onRejectSuggestion,
     onTriggerSuggestion
 } : PlaygroundEditorProps) => {
+    //we are using refs below because we need to access editor directly without causing React re-renders.
     const editorRef = useRef<any>(null);
     const monacoRef = useRef<Monaco | null>(null);
 
     //ai suggestion related refs
-    const inlineCompletionProviderRef = useRef<any>(null);
-    const currentSuggestionRef = useRef<{
+    const inlineCompletionProviderRef = useRef<any>(null);  //Stores the active Monaco inline suggestion provider so you can dispose it later.
+    const currentSuggestionRef = useRef<{ //Stores the currently visible AI suggestion.
         text: string
         position: {line: number, column: number}
         id: string
     } | null>(null);
+
+    //these two refs below prevent the same suggestion from being inserted twice.
     const isAcceptingSuggestionRef = useRef(false);
     const suggestionAcceptedRef = useRef(false);
+    
     const suggestionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const tabCommandRef = useRef<any>(null);
 
     const generateSuggestionId = () => `suggestion-${Date.now()}-${Math.random()}`;
 
     // Create inline completion provider  --> will tell the position at which suggestion is to be inserted
+    //this function does ---> “Here is the AI ghost text suggestion you should show.”
     const createInlineCompletionProvider = useCallback(
       (monaco: Monaco) => {
         return {
-          provideInlineCompletions: async (_model: any, position: any) => {
+          provideInlineCompletions: async (_model: any, position: any) => {   //Monaco calls this automatically when it wants inline suggestions.
             console.log("provideInlineCompletions called", {
               hasSuggestion: !!suggestion,
               hasPosition: !!suggestionPosition,
@@ -84,7 +89,7 @@ const PlaygroundEditor = ({
             const currentLine = position?.lineNumber
             const currentColumn = position?.column
 
-            const isPositionMatch =
+            const isPositionMatch =   //this checks whether the current cursor position matches the stored suggestion position.
               currentLine === suggestionPosition.line &&
               currentColumn >= suggestionPosition.column - 1 &&
               currentColumn <= suggestionPosition.column + 5
@@ -110,7 +115,7 @@ const PlaygroundEditor = ({
             const cleanSuggestion = suggestion.replace(/\r/g, "")
 
             return {
-              items: [
+              items: [    //This is the actual inline suggestion Monaco displays.
                 {
                   insertText: cleanSuggestion,
                   range: new monaco.Range(
@@ -138,6 +143,7 @@ const PlaygroundEditor = ({
       [suggestion, suggestionPosition],
     )
 
+    //This clears the current suggestion from memory and hides Monaco’s inline suggestion UI.
     const clearCurrentSuggestion = useCallback(() => {
         currentSuggestionRef.current = null;
         suggestionAcceptedRef.current = false;
@@ -147,7 +153,7 @@ const PlaygroundEditor = ({
         }
     }, [])
 
-      // Accept current suggestion with double-acceptance prevention
+      // Accept current suggestion with double-acceptance prevention and this method runs when user presses Tab.
     const acceptCurrentSuggestion = useCallback(() => {
       console.log("acceptCurrentSuggestion called", {
         hasEditor: !!editorRef.current,
@@ -187,7 +193,7 @@ const PlaygroundEditor = ({
         const suggestionPos = currentSuggestion.position
 
         // Verify we're still at the suggestion position
-        if (
+        if (    //This prevents inserting suggestion at the wrong place.
           currentPosition.lineNumber !== suggestionPos.line ||
           currentPosition.column < suggestionPos.column ||
           currentPosition.column > suggestionPos.column + 5
@@ -200,7 +206,7 @@ const PlaygroundEditor = ({
         const range = new monaco.Range(suggestionPos.line, suggestionPos.column, suggestionPos.line, suggestionPos.column)
 
         // Use executeEdits to insert the text
-        const success = editor.executeEdits("ai-suggestion-accept", [
+        const success = editor.executeEdits("ai-suggestion-accept", [   //This directly modifies the editor content 
           {
             range: range,
             text: cleanSuggestionText,
@@ -247,6 +253,8 @@ const PlaygroundEditor = ({
     }, [clearCurrentSuggestion, onAcceptSuggestion])
 
     // Check if there's an active inline suggestion at current position
+    //i.e. it checks: Is the cursor still near the active suggestion?
+    //This is used before accepting with Tab, Without this, pressing Tab anywhere might accidentally insert the AI suggestion.
     const hasActiveSuggestionAtPosition = useCallback(() => {
         if (!editorRef.current || !currentSuggestionRef.current) return false
 
