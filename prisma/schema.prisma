@@ -115,5 +115,5 @@ model ChatMessage {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@index([userId])
+  @@index([userId])   //used to add index to userId columm which would make querying faster
 }
