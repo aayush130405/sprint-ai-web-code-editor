@@ -15,7 +15,6 @@
 - [Overview](#overview)
 - [Why This Project Matters](#why-this-project-matters)
 - [Key Features](#key-features)
-- [Architecture](#architecture)
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
 - [Getting Started](#getting-started)
@@ -84,54 +83,6 @@ Recruiters and hiring managers often look for evidence that a candidate can **sh
 - Server-side user validation on all persistence actions
 
 ---
-
-## Architecture
-
-```mermaid
-flowchart TB
-    subgraph Client["Browser (Client)"]
-        UI["Next.js App Router UI"]
-        Monaco["Monaco Editor"]
-        Zustand["Zustand Store<br/>(File Explorer State)"]
-        WC["WebContainer Runtime"]
-        Term["xterm.js Terminal"]
-        Preview["Live Preview iframe"]
-    end
-
-    subgraph Server["Next.js Server"]
-        SA["Server Actions"]
-        API["API Routes"]
-        Auth["NextAuth + proxy.ts"]
-        TemplateAPI["/api/template/:id"]
-        CompletionAPI["/api/code-completion"]
-        ChatAPI["/api/chat"]
-    end
-
-    subgraph External["External Services"]
-        Ollama["Ollama (CodeLlama)"]
-        OAuth["GitHub / Google OAuth"]
-        Mongo["MongoDB"]
-    end
-
-    UI --> Monaco
-    UI --> Zustand
-    UI --> WC
-    WC --> Term
-    WC --> Preview
-
-    UI --> SA
-    UI --> API
-    Monaco --> CompletionAPI
-    UI --> ChatAPI
-
-    SA --> Mongo
-    TemplateAPI --> Mongo
-    Auth --> OAuth
-    Auth --> Mongo
-
-    CompletionAPI --> Ollama
-    ChatAPI --> Ollama
-```
 
 ### Data Flow: Save a File
 
@@ -362,16 +313,13 @@ File operations update Zustand state immediately for responsive UX, then persist
 
 ## About the Developer
 
-> **Replace this section with your personal information before sharing with recruiters.**
-
-**Your Name** — Full-Stack Developer
+**Aayush Yadav** — Full-Stack Developer
 
 I built Sprint AI to explore the intersection of modern web platforms, in-browser compute, and AI-assisted developer tooling. This project reflects my ability to architect complex full-stack applications, integrate cutting-edge browser APIs, and deliver polished user experiences.
 
-- **Portfolio:** [your-portfolio.com](https://your-portfolio.com)
-- **LinkedIn:** [linkedin.com/in/your-profile](https://linkedin.com/in/your-profile)
-- **GitHub:** [github.com/your-username](https://github.com/your-username)
-- **Email:** your.email@example.com
+- **LinkedIn:** [linkedin.com/in/your-profile](https://linkedin.com/in/aayush130405)
+- **GitHub:** [github.com/aayush130405](https://github.com/aayush130405)
+- **Email:** aayush130405@gmail.com
 
 ---
 
